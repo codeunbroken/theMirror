@@ -1,0 +1,32 @@
+<div class="login__container bg-loginBg bg-cover h-[100vh] flex items-center">
+  <div class="form__wrapper bg-white w-[24%] h-[60vh] rounded-xl p-10 m-auto">
+    <div class="content">
+      <div class="logo">
+        <img
+          src="../../../assets/images/logo(1).png"
+          class="w-[60px] mb-[25px] m-auto"
+          alt=""
+        />
+      </div>
+      <div class="text text-center">
+        <h3 class="mb-2">Sign in</h3>
+        <p class="mb-[45px] text-sm">Sign in to continue to Mirror Forum</p>
+      </div>
+    </div>
+
+    <form  [formGroup]="form" >
+      <span class="p-float-label">
+        <input pInputText formControlName="email" class="w-[100%]" />
+        <label htmlFor="email">Email</label>
+      </span>
+      <span class="p-float-label">
+        <p-password class=" flex py-5 w-[100%]"
+          [toggleMask]="true"
+          formControlName="password"
+        ></p-password>
+        <label htmlFor="password">Password</label>
+      </span>
+      <button (click)="submitForm()" class="bg-[#3C3CC8] w-[100%] rounded-md py-4 text-white mt-10">Submit</button>
+    </form>
+  </div>
+</div>

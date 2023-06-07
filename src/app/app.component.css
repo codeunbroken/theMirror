@@ -1,0 +1,66 @@
+.nav__container{
+
+  background: var(--pry-blue);
+}
+
+.nav__wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+  margin-inline: auto;
+}
+
+.navImage img{
+  width: 60px;
+}
+
+.nav__right{
+  color: white;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.nav__left{
+  color: white;
+  display: flex;
+  gap: 50px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navText{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__right .login{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pi{
+  margin-right: 5px;
+}
+
+.p-dropdown{
+background-color: none!important;
+border: none;
+}
+
+.forum:hover{
+  cursor: pointer;
+}
+
+.login:hover{
+  cursor: pointer;
+
+}
+.signup:hover{
+  cursor: pointer;
+
+}
