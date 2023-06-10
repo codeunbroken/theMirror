@@ -1,25 +1,22 @@
-<div class="nav__container h-[80px] w-[100vw] bg-[#3C3CC8] flex items-center">
+<div class="nav__container h-[80px] w-[100vw] bg-[#3C3CC8] flex items-center fixed z-40">
   <div class="nav__wrapper w-[90%] m-auto flex items-center justify-between">
     <div class="nav__left flex gap-8 items-center">
       <div class="navImage">
         <img class="logo w-[50px]" src="../../assets/images/logo(1).png" alt="logo" />
       </div>
       <div class="navText flex items-center gap-4">
-        <div class="forum pSmall text-white">Forum Home</div>
+        <div class="forum pSmall text-white cursor-pointer" routerLink="/home" routerLinkActive="active">Forum Home</div>
         <div class="topics pSmall">
-          <div class="card flex justify-content-center">
-            <p-dropdown
-              [options]="items"
-              [(ngModel)]="selectedItem"
-              placeholder="Topics"
-            ></p-dropdown>
+          <div class="card flex items-center gap-2 cursor-pointer text-white justify-content-center">
+           Topics
+           <i class="pi pi-angle-down"></i>
           </div>
         </div>
       </div>
     </div>
     <div class="nav__right ">
-      <div class="login pSmall flex items-center gap-2 text-white">
-        <i class="pi pi-bell" style="font-size: 1rem"></i>Login
+      <div class="login pSmall flex items-center gap-2 text-white cursor-pointer" (click)="logout()">
+        <i class="pi pi-sign-out" style="font-size: 1rem"></i>Signout
       </div>
 
     </div>

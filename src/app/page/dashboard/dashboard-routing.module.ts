@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/services/auth.guard';
 import { ForumAnnouncementComponent } from '../forum-announcement/forum-announcement.component';
 import { ForumHomeComponent } from '../forum-home/forum-home.component';
 import { ForumWelcomePageComponent } from '../forum-welcome-page/forum-welcome-page.component';
+import { ReplyComponentComponent } from '../reply-component/reply-component.component';
 import { LayoutComponent } from './layout/layout.component';
 
 
@@ -11,7 +13,7 @@ const routes: Routes = [
 
   {
     path: '',
-    component: LayoutComponent,
+    component: LayoutComponent, canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
@@ -25,6 +27,11 @@ const routes: Routes = [
       {
         path: 'announcement',
         component: ForumAnnouncementComponent,
+      },
+
+      {
+        path: 'reply',
+        component: ReplyComponentComponent,
       },
     ]
   },

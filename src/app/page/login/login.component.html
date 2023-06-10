@@ -1,4 +1,4 @@
-<div class="login__container bg-loginBg bg-cover h-[100vh] flex items-center">
+<div class="login__container bg-loginBg bg-cover h-[100vh] overflow-hidden flex items-center">
   <div class="form__wrapper bg-white w-[24%] h-[60vh] rounded-xl p-10 m-auto">
     <div class="content">
       <div class="logo">
@@ -19,14 +19,18 @@
         <input pInputText formControlName="email" class="w-[100%]" />
         <label htmlFor="email">Email</label>
       </span>
-      <span class="p-float-label">
-        <p-password class=" flex py-5 w-[100%]"
+      <span class="p-float-label mt-5">
+        <p-password class=""
           [toggleMask]="true"
+          [feedback]="false"
           formControlName="password"
+
         ></p-password>
         <label htmlFor="password">Password</label>
       </span>
-      <button (click)="submitForm()" class="bg-[#3C3CC8] w-[100%] rounded-md py-4 text-white mt-10">Submit</button>
+      <button (click)="submitForm()" class="bg-[#3C3CC8] w-[100%] flex items-center gap-5 justify-center rounded-md py-4 text-white mt-10">
+        <i class="pi pi-spin pi-spinner" *ngIf="loading"></i>
+        Submit</button>
     </form>
   </div>
 </div>

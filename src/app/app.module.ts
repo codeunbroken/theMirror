@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { forwardRef, NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,9 +9,19 @@ import { PageComponent } from './page/page.component';
 import { LoginComponent } from './page/login/login.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiModule } from './api/api.module';
+import { environment } from 'src/environments/environment';
+import { ToastrModule } from 'ngx-toastr';
+import { JwtInterceptor } from './interceptor/jwt.interceptor';
+import { ReplyComponentComponent } from './page/reply-component/reply-component.component';
+
+export const API_INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useExisting: forwardRef(() => JwtInterceptor),
+  multi: true
+};
 
 
 @NgModule({
@@ -19,6 +29,7 @@ import { ApiModule } from './api/api.module';
     AppComponent,
     PageComponent,
     LoginComponent,
+    ReplyComponentComponent,
 
 
   ],
@@ -32,9 +43,19 @@ import { ApiModule } from './api/api.module';
     PasswordModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ApiModule.forRoot({rootUrl: "https://api.themirrorllc.com"})
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-center',
+      progressAnimation: 'decreasing',
+      progressBar: true
+    }),
+    ApiModule.forRoot({ rootUrl: environment.apiUrl }),
   ],
-  providers: [],
+
+  providers: [
+    JwtInterceptor,
+    API_INTERCEPTOR_PROVIDER,
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

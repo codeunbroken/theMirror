@@ -71,7 +71,19 @@ h5{
 .pSmall{
   font-size: 0.875rem;
   line-height: 1.8;
-  text-align: justify;
-  text-justify: inter-word;
+  /* text-align: justify; */
+  /* text-justify: inter-word; */
 }
 
+
+.toast-success {
+  background-color: #01cf98 !important;
+  border: 0.5px solid white;
+  box-shadow: none !important;
+}
+
+.toast-error {
+  background-color: red !important;
+  border: 0.2px solid white;
+  box-shadow: none !important;
+}
