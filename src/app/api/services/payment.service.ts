@@ -9,6 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { Currency } from '../models/currency';
 
 
 /**
@@ -26,14 +27,124 @@ export class PaymentService extends BaseService {
   }
 
   /**
-   * Path part for operation paystackCallback
+   * Path part for operation registerPayment
    */
-  static readonly PaystackCallbackPath = '/paystack/{paystackId}/callback';
+  static readonly RegisterPaymentPath = '/payment/{payId}/process';
 
   /**
-   * Verify Payment.
+   * Register Payment.
    *
-   * Verify Paystack Payment
+   * Register Payment
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `registerPayment()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  registerPayment$Response(params: {
+    payId: string;
+    body?: {
+'courseIds': Array<any>;
+'method'?: 'free' | 'paystack' | 'paypal';
+}
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<{
+'amount'?: number;
+'callbackUrl'?: string;
+'email'?: string;
+'reference'?: string;
+'product'?: string;
+'buyer'?: string;
+'key'?: string;
+}>> {
+
+    const rb = new RequestBuilder(this.rootUrl, PaymentService.RegisterPaymentPath, 'post');
+    if (params) {
+      rb.path('payId', params.payId, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<{
+        'amount'?: number;
+        'callbackUrl'?: string;
+        'email'?: string;
+        'reference'?: string;
+        'product'?: string;
+        'buyer'?: string;
+        'key'?: string;
+        }>;
+      })
+    );
+  }
+
+  /**
+   * Register Payment.
+   *
+   * Register Payment
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `registerPayment$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  registerPayment(params: {
+    payId: string;
+    body?: {
+'courseIds': Array<any>;
+'method'?: 'free' | 'paystack' | 'paypal';
+}
+  },
+  context?: HttpContext
+
+): Observable<{
+'amount'?: number;
+'callbackUrl'?: string;
+'email'?: string;
+'reference'?: string;
+'product'?: string;
+'buyer'?: string;
+'key'?: string;
+}> {
+
+    return this.registerPayment$Response(params,context).pipe(
+      map((r: StrictHttpResponse<{
+'amount'?: number;
+'callbackUrl'?: string;
+'email'?: string;
+'reference'?: string;
+'product'?: string;
+'buyer'?: string;
+'key'?: string;
+}>) => r.body as {
+'amount'?: number;
+'callbackUrl'?: string;
+'email'?: string;
+'reference'?: string;
+'product'?: string;
+'buyer'?: string;
+'key'?: string;
+})
+    );
+  }
+
+  /**
+   * Path part for operation paystackCallback
+   */
+  static readonly PaystackCallbackPath = '/paystack/{payId}/callback';
+
+  /**
+   * Paystack Callback.
+   *
+   * Paystack Payment Callback
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `paystackCallback()` instead.
@@ -41,7 +152,7 @@ export class PaymentService extends BaseService {
    * This method doesn't expect any request body.
    */
   paystackCallback$Response(params: {
-    paystackId: string;
+    payId: string;
   },
   context?: HttpContext
 
@@ -49,7 +160,7 @@ export class PaymentService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, PaymentService.PaystackCallbackPath, 'get');
     if (params) {
-      rb.path('paystackId', params.paystackId, {});
+      rb.path('payId', params.payId, {});
     }
 
     return this.http.request(rb.build({
@@ -65,9 +176,9 @@ export class PaymentService extends BaseService {
   }
 
   /**
-   * Verify Payment.
+   * Paystack Callback.
    *
-   * Verify Paystack Payment
+   * Paystack Payment Callback
    *
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `paystackCallback$Response()` instead.
@@ -75,7 +186,7 @@ export class PaymentService extends BaseService {
    * This method doesn't expect any request body.
    */
   paystackCallback(params: {
-    paystackId: string;
+    payId: string;
   },
   context?: HttpContext
 
@@ -87,39 +198,151 @@ export class PaymentService extends BaseService {
   }
 
   /**
-   * Path part for operation registerPaystackPayment
+   * Path part for operation paypalCallback
    */
-  static readonly RegisterPaystackPaymentPath = '/paystack/{paystackId}/process';
+  static readonly PaypalCallbackPath = '/paypal/{payId}/callback';
 
   /**
-   * Register Payment.
+   * Paypal Callback.
    *
-   * Register Paystack Payment
+   * Paypal Payment Callback
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `registerPaystackPayment()` instead.
+   * To access only the response body, use `paypalCallback()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  registerPaystackPayment$Response(params: {
-    paystackId: string;
-    body?: {
-'payId'?: string;
-'courseIds'?: Array<any>;
-'lernerId'?: string;
-'method'?: 'paystack' | 'paypal';
-'referrer'?: string;
-'paymentCode'?: number;
-'amount'?: number;
-}
+  paypalCallback$Response(params: {
+    payId: string;
   },
   context?: HttpContext
 
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, PaymentService.RegisterPaystackPaymentPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, PaymentService.PaypalCallbackPath, 'get');
     if (params) {
-      rb.path('paystackId', params.paystackId, {});
+      rb.path('payId', params.payId, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * Paypal Callback.
+   *
+   * Paypal Payment Callback
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `paypalCallback$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  paypalCallback(params: {
+    payId: string;
+  },
+  context?: HttpContext
+
+): Observable<void> {
+
+    return this.paypalCallback$Response(params,context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getExchangeRateByCurrency
+   */
+  static readonly GetExchangeRateByCurrencyPath = '/exchange-rate';
+
+  /**
+   * Get Exchange Rate.
+   *
+   * Get Exchange Rate by Currency
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getExchangeRateByCurrency()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getExchangeRateByCurrency$Response(params?: {
+    currency?: 'NGN' | 'EUR' | 'GBP' | 'JPY' | 'ZAR' | 'CNY';
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Currency>> {
+
+    const rb = new RequestBuilder(this.rootUrl, PaymentService.GetExchangeRateByCurrencyPath, 'get');
+    if (params) {
+      rb.query('currency', params.currency, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Currency>;
+      })
+    );
+  }
+
+  /**
+   * Get Exchange Rate.
+   *
+   * Get Exchange Rate by Currency
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getExchangeRateByCurrency$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getExchangeRateByCurrency(params?: {
+    currency?: 'NGN' | 'EUR' | 'GBP' | 'JPY' | 'ZAR' | 'CNY';
+  },
+  context?: HttpContext
+
+): Observable<Currency> {
+
+    return this.getExchangeRateByCurrency$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Currency>) => r.body as Currency)
+    );
+  }
+
+  /**
+   * Path part for operation addExchangeRate
+   */
+  static readonly AddExchangeRatePath = '/exchange-rate';
+
+  /**
+   * Add Exchange Rate.
+   *
+   * Add Exchange Rate i.e. how much of your currency amounts to 1 dollar. For example 721.0 naira makes a dollar, so I will pass 721 as exchangeRate and NGN as currency
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addExchangeRate()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  addExchangeRate$Response(params?: {
+    body?: Currency
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, PaymentService.AddExchangeRatePath, 'post');
+    if (params) {
       rb.body(params.body, 'application/json');
     }
 
@@ -136,122 +359,52 @@ export class PaymentService extends BaseService {
   }
 
   /**
-   * Register Payment.
+   * Add Exchange Rate.
    *
-   * Register Paystack Payment
+   * Add Exchange Rate i.e. how much of your currency amounts to 1 dollar. For example 721.0 naira makes a dollar, so I will pass 721 as exchangeRate and NGN as currency
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `registerPaystackPayment$Response()` instead.
+   * To access the full response (for headers, for example), `addExchangeRate$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  registerPaystackPayment(params: {
-    paystackId: string;
-    body?: {
-'payId'?: string;
-'courseIds'?: Array<any>;
-'lernerId'?: string;
-'method'?: 'paystack' | 'paypal';
-'referrer'?: string;
-'paymentCode'?: number;
-'amount'?: number;
-}
+  addExchangeRate(params?: {
+    body?: Currency
   },
   context?: HttpContext
 
 ): Observable<void> {
 
-    return this.registerPaystackPayment$Response(params,context).pipe(
+    return this.addExchangeRate$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation paystackProcess
+   * Path part for operation getAllExchangeRates
    */
-  static readonly PaystackProcessPath = '/paystack/{paystackId}/process';
+  static readonly GetAllExchangeRatesPath = '/exchange-rate/all';
 
   /**
-   * Process Payment.
+   * Get All Exchange Rates.
    *
-   * Process and Verify Paystack Payment
+   * Get All Exchange Rates
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `paystackProcess()` instead.
+   * To access only the response body, use `getAllExchangeRates()` instead.
    *
    * This method doesn't expect any request body.
    */
-  paystackProcess$Response(params: {
-    paystackId: string;
+  getAllExchangeRates$Response(params?: {
+    currency?: 'NGN' | 'EUR' | 'GBP' | 'JPY' | 'ZAR' | 'CNY';
   },
   context?: HttpContext
 
-): Observable<StrictHttpResponse<void>> {
+): Observable<StrictHttpResponse<Currency>> {
 
-    const rb = new RequestBuilder(this.rootUrl, PaymentService.PaystackProcessPath, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, PaymentService.GetAllExchangeRatesPath, 'get');
     if (params) {
-      rb.path('paystackId', params.paystackId, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * Process Payment.
-   *
-   * Process and Verify Paystack Payment
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `paystackProcess$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  paystackProcess(params: {
-    paystackId: string;
-  },
-  context?: HttpContext
-
-): Observable<void> {
-
-    return this.paystackProcess$Response(params,context).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation getPaystackKey
-   */
-  static readonly GetPaystackKeyPath = '/paystack/key';
-
-  /**
-   * Get Paystack Key.
-   *
-   * Get paystack public key
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getPaystackKey()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getPaystackKey$Response(params?: {
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<{
-'key'?: string;
-}>> {
-
-    const rb = new RequestBuilder(this.rootUrl, PaymentService.GetPaystackKeyPath, 'get');
-    if (params) {
+      rb.query('currency', params.currency, {});
     }
 
     return this.http.request(rb.build({
@@ -261,37 +414,30 @@ export class PaymentService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<{
-        'key'?: string;
-        }>;
+        return r as StrictHttpResponse<Currency>;
       })
     );
   }
 
   /**
-   * Get Paystack Key.
+   * Get All Exchange Rates.
    *
-   * Get paystack public key
+   * Get All Exchange Rates
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getPaystackKey$Response()` instead.
+   * To access the full response (for headers, for example), `getAllExchangeRates$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getPaystackKey(params?: {
+  getAllExchangeRates(params?: {
+    currency?: 'NGN' | 'EUR' | 'GBP' | 'JPY' | 'ZAR' | 'CNY';
   },
   context?: HttpContext
 
-): Observable<{
-'key'?: string;
-}> {
+): Observable<Currency> {
 
-    return this.getPaystackKey$Response(params,context).pipe(
-      map((r: StrictHttpResponse<{
-'key'?: string;
-}>) => r.body as {
-'key'?: string;
-})
+    return this.getAllExchangeRates$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Currency>) => r.body as Currency)
     );
   }
 

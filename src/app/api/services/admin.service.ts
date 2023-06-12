@@ -11,6 +11,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { Admin } from '../models/admin';
 import { AuthToken } from '../models/auth-token';
+import { Learner } from '../models/learner';
 
 
 /**
@@ -339,6 +340,129 @@ export class AdminService extends BaseService {
 
     return this.assignAdminRole$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation assignMenteesToAdmin
+   */
+  static readonly AssignMenteesToAdminPath = '/admin/{adminId}/mentees';
+
+  /**
+   * Assign Mentees to Admin.
+   *
+   * Assign Mentees to Admin
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `assignMenteesToAdmin()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  assignMenteesToAdmin$Response(params?: {
+    body?: {
+'mentees': Array<any>;
+}
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, AdminService.AssignMenteesToAdminPath, 'patch');
+    if (params) {
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * Assign Mentees to Admin.
+   *
+   * Assign Mentees to Admin
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `assignMenteesToAdmin$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  assignMenteesToAdmin(params?: {
+    body?: {
+'mentees': Array<any>;
+}
+  },
+  context?: HttpContext
+
+): Observable<void> {
+
+    return this.assignMenteesToAdmin$Response(params,context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getMentees
+   */
+  static readonly GetMenteesPath = '/admin/mentees';
+
+  /**
+   * Get Mentees.
+   *
+   * Get Mentees Assigned To Admin
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getMentees()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMentees$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<Array<Learner>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, AdminService.GetMenteesPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<Learner>>;
+      })
+    );
+  }
+
+  /**
+   * Get Mentees.
+   *
+   * Get Mentees Assigned To Admin
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getMentees$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMentees(params?: {
+  },
+  context?: HttpContext
+
+): Observable<Array<Learner>> {
+
+    return this.getMentees$Response(params,context).pipe(
+      map((r: StrictHttpResponse<Array<Learner>>) => r.body as Array<Learner>)
     );
   }
 
@@ -728,6 +852,94 @@ export class AdminService extends BaseService {
 
     return this.changePassword$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getAllAdmins
+   */
+  static readonly GetAllAdminsPath = '/admins';
+
+  /**
+   * Get All Admins.
+   *
+   * Get All Admins
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllAdmins()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllAdmins$Response(params?: {
+    skip?: number;
+    limit?: number;
+    name?: string;
+    email?: string;
+    role?: 'super admin' | 'editor' | 'mentor' | 'instructor';
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<{
+'totalRecords'?: number;
+'data'?: Array<Admin>;
+}>> {
+
+    const rb = new RequestBuilder(this.rootUrl, AdminService.GetAllAdminsPath, 'get');
+    if (params) {
+      rb.query('skip', params.skip, {});
+      rb.query('limit', params.limit, {});
+      rb.query('name', params.name, {});
+      rb.query('email', params.email, {});
+      rb.query('role', params.role, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<{
+        'totalRecords'?: number;
+        'data'?: Array<Admin>;
+        }>;
+      })
+    );
+  }
+
+  /**
+   * Get All Admins.
+   *
+   * Get All Admins
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllAdmins$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllAdmins(params?: {
+    skip?: number;
+    limit?: number;
+    name?: string;
+    email?: string;
+    role?: 'super admin' | 'editor' | 'mentor' | 'instructor';
+  },
+  context?: HttpContext
+
+): Observable<{
+'totalRecords'?: number;
+'data'?: Array<Admin>;
+}> {
+
+    return this.getAllAdmins$Response(params,context).pipe(
+      map((r: StrictHttpResponse<{
+'totalRecords'?: number;
+'data'?: Array<Admin>;
+}>) => r.body as {
+'totalRecords'?: number;
+'data'?: Array<Admin>;
+})
     );
   }
 
