@@ -33,6 +33,10 @@ const routes: Routes = [
         path: 'reply',
         component: ReplyComponentComponent,
       },
+      {
+        path: 'forum/:id',
+        component: ReplyComponentComponent,
+      },
     ]
   },
 
