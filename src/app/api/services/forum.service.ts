@@ -40,7 +40,8 @@ export class ForumService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getForumsByUserId$Response(params?: {
+  getForumsByUserId$Response(params: {
+    forumId: string;
   },
   context?: HttpContext
 
@@ -54,6 +55,7 @@ export class ForumService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, ForumService.GetForumsByUserIdPath, 'get');
     if (params) {
+      rb.path('forumId', params.forumId, {});
     }
 
     return this.http.request(rb.build({
@@ -84,7 +86,8 @@ export class ForumService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getForumsByUserId(params?: {
+  getForumsByUserId(params: {
+    forumId: string;
   },
   context?: HttpContext
 
@@ -128,7 +131,8 @@ export class ForumService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createForum$Response(params?: {
+  createForum$Response(params: {
+    forumId: string;
     body?: {
 'forumName'?: string;
 'description'?: string;
@@ -140,6 +144,7 @@ export class ForumService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, ForumService.CreateForumPath, 'post');
     if (params) {
+      rb.path('forumId', params.forumId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -165,7 +170,8 @@ export class ForumService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createForum(params?: {
+  createForum(params: {
+    forumId: string;
     body?: {
 'forumName'?: string;
 'description'?: string;
@@ -195,7 +201,8 @@ export class ForumService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllPostsByForumId$Response(params?: {
+  getAllPostsByForumId$Response(params: {
+    forumId: string;
   },
   context?: HttpContext
 
@@ -215,6 +222,7 @@ export class ForumService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, ForumService.GetAllPostsByForumIdPath, 'get');
     if (params) {
+      rb.path('forumId', params.forumId, {});
     }
 
     return this.http.request(rb.build({
@@ -251,7 +259,8 @@ export class ForumService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllPostsByForumId(params?: {
+  getAllPostsByForumId(params: {
+    forumId: string;
   },
   context?: HttpContext
 
@@ -295,6 +304,67 @@ export class ForumService extends BaseService {
 'date'?: string;
 }>;
 })
+    );
+  }
+
+  /**
+   * Path part for operation createCourseForum
+   */
+  static readonly CreateCourseForumPath = '/course/{courseId}/create-forum';
+
+  /**
+   * Create Course Forum.
+   *
+   * Create Course Forum
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `createCourseForum()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  createCourseForum$Response(params: {
+    courseId: string;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ForumService.CreateCourseForumPath, 'post');
+    if (params) {
+      rb.path('courseId', params.courseId, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * Create Course Forum.
+   *
+   * Create Course Forum
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `createCourseForum$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  createCourseForum(params: {
+    courseId: string;
+  },
+  context?: HttpContext
+
+): Observable<void> {
+
+    return this.createCourseForum$Response(params,context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
@@ -433,8 +503,13 @@ export class ForumService extends BaseService {
    */
   createPost$Response(params?: {
     body?: {
-'forumId'?: string;
-'postMessage'?: string;
+'notificationId'?: string;
+'userId'?: string;
+'title'?: string;
+'description'?: string;
+'descriptionSummary'?: string;
+'isSeen'?: boolean;
+'date'?: string;
 }
   },
   context?: HttpContext
@@ -470,8 +545,13 @@ export class ForumService extends BaseService {
    */
   createPost(params?: {
     body?: {
-'forumId'?: string;
-'postMessage'?: string;
+'notificationId'?: string;
+'userId'?: string;
+'title'?: string;
+'description'?: string;
+'descriptionSummary'?: string;
+'isSeen'?: boolean;
+'date'?: string;
 }
   },
   context?: HttpContext
