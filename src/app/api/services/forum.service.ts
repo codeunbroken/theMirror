@@ -26,97 +26,6 @@ export class ForumService extends BaseService {
   }
 
   /**
-   * Path part for operation getForumsByUserId
-   */
-  static readonly GetForumsByUserIdPath = '/forum/{forumId}';
-
-  /**
-   * Get Forums.
-   *
-   * Get Forums By User ID
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getForumsByUserId()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getForumsByUserId$Response(params: {
-    forumId: string;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<{
-'forumName'?: string;
-'description'?: string;
-'forumId'?: string;
-'creatorId'?: string;
-'date'?: string;
-}>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ForumService.GetForumsByUserIdPath, 'get');
-    if (params) {
-      rb.path('forumId', params.forumId, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json',
-      context: context
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<{
-        'forumName'?: string;
-        'description'?: string;
-        'forumId'?: string;
-        'creatorId'?: string;
-        'date'?: string;
-        }>;
-      })
-    );
-  }
-
-  /**
-   * Get Forums.
-   *
-   * Get Forums By User ID
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getForumsByUserId$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getForumsByUserId(params: {
-    forumId: string;
-  },
-  context?: HttpContext
-
-): Observable<{
-'forumName'?: string;
-'description'?: string;
-'forumId'?: string;
-'creatorId'?: string;
-'date'?: string;
-}> {
-
-    return this.getForumsByUserId$Response(params,context).pipe(
-      map((r: StrictHttpResponse<{
-'forumName'?: string;
-'description'?: string;
-'forumId'?: string;
-'creatorId'?: string;
-'date'?: string;
-}>) => r.body as {
-'forumName'?: string;
-'description'?: string;
-'forumId'?: string;
-'creatorId'?: string;
-'date'?: string;
-})
-    );
-  }
-
-  /**
    * Path part for operation createForum
    */
   static readonly CreateForumPath = '/forum/{forumId}';
@@ -183,6 +92,97 @@ export class ForumService extends BaseService {
 
     return this.createForum$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getForumsByUserId
+   */
+  static readonly GetForumsByUserIdPath = '/forum/user/{userId}';
+
+  /**
+   * Get Forums.
+   *
+   * Get Forums By User ID
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getForumsByUserId()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getForumsByUserId$Response(params: {
+    userId: string;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<{
+'forumName'?: string;
+'description'?: string;
+'forumId'?: string;
+'creatorId'?: string;
+'date'?: string;
+}>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ForumService.GetForumsByUserIdPath, 'get');
+    if (params) {
+      rb.path('userId', params.userId, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<{
+        'forumName'?: string;
+        'description'?: string;
+        'forumId'?: string;
+        'creatorId'?: string;
+        'date'?: string;
+        }>;
+      })
+    );
+  }
+
+  /**
+   * Get Forums.
+   *
+   * Get Forums By User ID
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getForumsByUserId$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getForumsByUserId(params: {
+    userId: string;
+  },
+  context?: HttpContext
+
+): Observable<{
+'forumName'?: string;
+'description'?: string;
+'forumId'?: string;
+'creatorId'?: string;
+'date'?: string;
+}> {
+
+    return this.getForumsByUserId$Response(params,context).pipe(
+      map((r: StrictHttpResponse<{
+'forumName'?: string;
+'description'?: string;
+'forumId'?: string;
+'creatorId'?: string;
+'date'?: string;
+}>) => r.body as {
+'forumName'?: string;
+'description'?: string;
+'forumId'?: string;
+'creatorId'?: string;
+'date'?: string;
+})
     );
   }
 
