@@ -234,7 +234,7 @@ export class CoursesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getCoursePackage$Response(params: {
-    courseId: string;
+    coursePackageId: string;
   },
   context?: HttpContext
 
@@ -242,7 +242,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.GetCoursePackagePath, 'get');
     if (params) {
-      rb.path('courseId', params.courseId, {});
+      rb.path('coursePackageId', params.coursePackageId, {});
     }
 
     return this.http.request(rb.build({
@@ -268,7 +268,7 @@ export class CoursesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getCoursePackage(params: {
-    courseId: string;
+    coursePackageId: string;
   },
   context?: HttpContext
 
@@ -295,7 +295,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   createCoursePackage$Response(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: CoursePackage
   },
   context?: HttpContext
@@ -304,7 +304,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.CreateCoursePackagePath, 'post');
     if (params) {
-      rb.path('courseId', params.courseId, {});
+      rb.path('coursePackageId', params.coursePackageId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -331,7 +331,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   createCoursePackage(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: CoursePackage
   },
   context?: HttpContext
@@ -359,7 +359,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   addCoursesToCoursePackage$Response(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: {
 'courseIds'?: Array<any>;
 }
@@ -370,7 +370,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.AddCoursesToCoursePackagePath, 'patch');
     if (params) {
-      rb.path('courseId', params.courseId, {});
+      rb.path('coursePackageId', params.coursePackageId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -397,7 +397,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   addCoursesToCoursePackage(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: {
 'courseIds'?: Array<any>;
 }
@@ -427,7 +427,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   uploadCoursePackageCover$Response(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: Upload
   },
   context?: HttpContext
@@ -436,7 +436,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.UploadCoursePackageCoverPath, 'patch');
     if (params) {
-      rb.path('courseId', params.courseId, {});
+      rb.path('coursePackageId', params.coursePackageId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -463,7 +463,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   uploadCoursePackageCover(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: Upload
   },
   context?: HttpContext
@@ -491,7 +491,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   createPackagePricePlan$Response(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: PricePlan
   },
   context?: HttpContext
@@ -500,7 +500,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.CreatePackagePricePlanPath, 'post');
     if (params) {
-      rb.path('courseId', params.courseId, {});
+      rb.path('coursePackageId', params.coursePackageId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -527,7 +527,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   createPackagePricePlan(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: PricePlan
   },
   context?: HttpContext
@@ -555,7 +555,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   addCoursesToCoursePackage_1$Response(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: {
 'courseIds'?: Array<any>;
 }
@@ -566,7 +566,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.AddCoursesToCoursePackage_1Path, 'patch');
     if (params) {
-      rb.path('courseId', params.courseId, {});
+      rb.path('coursePackageId', params.coursePackageId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -593,7 +593,7 @@ export class CoursesService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   addCoursesToCoursePackage_1(params: {
-    courseId: string;
+    coursePackageId: string;
     body?: {
 'courseIds'?: Array<any>;
 }
@@ -708,6 +708,7 @@ export class CoursesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getAllCoursePackages$Response(params?: {
+    isPublished?: true | false;
     courseCategory?: 'identity' | 'education' | 'spiritual' | 'social' | 'mentoring';
     ageCategory?: 'children' | 'young adult' | 'adult';
     title?: string;
@@ -721,6 +722,7 @@ export class CoursesService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, CoursesService.GetAllCoursePackagesPath, 'get');
     if (params) {
+      rb.query('isPublished', params.isPublished, {});
       rb.query('courseCategory', params.courseCategory, {});
       rb.query('ageCategory', params.ageCategory, {});
       rb.query('title', params.title, {});
@@ -752,6 +754,7 @@ export class CoursesService extends BaseService {
    * This method doesn't expect any request body.
    */
   getAllCoursePackages(params?: {
+    isPublished?: true | false;
     courseCategory?: 'identity' | 'education' | 'spiritual' | 'social' | 'mentoring';
     ageCategory?: 'children' | 'young adult' | 'adult';
     title?: string;

@@ -96,6 +96,135 @@ export class ForumService extends BaseService {
   }
 
   /**
+   * Path part for operation deleteForum
+   */
+  static readonly DeleteForumPath = '/forum/{forumId}';
+
+  /**
+   * Delete Forum.
+   *
+   * Delete Forum
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteForum()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteForum$Response(params: {
+    forumId: string;
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ForumService.DeleteForumPath, 'delete');
+    if (params) {
+      rb.path('forumId', params.forumId, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * Delete Forum.
+   *
+   * Delete Forum
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteForum$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteForum(params: {
+    forumId: string;
+  },
+  context?: HttpContext
+
+): Observable<void> {
+
+    return this.deleteForum$Response(params,context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation renameForum
+   */
+  static readonly RenameForumPath = '/forum/{forumId}';
+
+  /**
+   * Rename Forum.
+   *
+   * Rename Forum
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `renameForum()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  renameForum$Response(params: {
+    forumId: string;
+    body?: {
+'forumName'?: string;
+}
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ForumService.RenameForumPath, 'patch');
+    if (params) {
+      rb.path('forumId', params.forumId, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * Rename Forum.
+   *
+   * Rename Forum
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `renameForum$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  renameForum(params: {
+    forumId: string;
+    body?: {
+'forumName'?: string;
+}
+  },
+  context?: HttpContext
+
+): Observable<void> {
+
+    return this.renameForum$Response(params,context).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation getForumsByUserId
    */
   static readonly GetForumsByUserIdPath = '/forum/user/{userId}';
@@ -501,15 +630,11 @@ export class ForumService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createPost$Response(params?: {
+  createPost$Response(params: {
+    postId: string;
     body?: {
-'notificationId'?: string;
-'userId'?: string;
-'title'?: string;
-'description'?: string;
-'descriptionSummary'?: string;
-'isSeen'?: boolean;
-'date'?: string;
+'forumId'?: string;
+'postMessage'?: string;
 }
   },
   context?: HttpContext
@@ -518,6 +643,7 @@ export class ForumService extends BaseService {
 
     const rb = new RequestBuilder(this.rootUrl, ForumService.CreatePostPath, 'post');
     if (params) {
+      rb.path('postId', params.postId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -543,15 +669,11 @@ export class ForumService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createPost(params?: {
+  createPost(params: {
+    postId: string;
     body?: {
-'notificationId'?: string;
-'userId'?: string;
-'title'?: string;
-'description'?: string;
-'descriptionSummary'?: string;
-'isSeen'?: boolean;
-'date'?: string;
+'forumId'?: string;
+'postMessage'?: string;
 }
   },
   context?: HttpContext
@@ -564,21 +686,22 @@ export class ForumService extends BaseService {
   }
 
   /**
-   * Path part for operation getForumsByUserId_1
+   * Path part for operation respondToPost
    */
-  static readonly GetForumsByUserId_1Path = '/post/{postId}';
+  static readonly RespondToPostPath = '/post/{postId}';
 
   /**
-   * Get Forums.
+   * Respond to Post.
    *
-   * Get Forums By User ID
+   * Respond To Post
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getForumsByUserId_1()` instead.
+   * To access only the response body, use `respondToPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getForumsByUserId_1$Response(params?: {
+  respondToPost$Response(params: {
+    postId: string;
     body?: {
 'response'?: string;
 }
@@ -587,8 +710,9 @@ export class ForumService extends BaseService {
 
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ForumService.GetForumsByUserId_1Path, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, ForumService.RespondToPostPath, 'patch');
     if (params) {
+      rb.path('postId', params.postId, {});
       rb.body(params.body, 'application/json');
     }
 
@@ -605,16 +729,17 @@ export class ForumService extends BaseService {
   }
 
   /**
-   * Get Forums.
+   * Respond to Post.
    *
-   * Get Forums By User ID
+   * Respond To Post
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getForumsByUserId_1$Response()` instead.
+   * To access the full response (for headers, for example), `respondToPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  getForumsByUserId_1(params?: {
+  respondToPost(params: {
+    postId: string;
     body?: {
 'response'?: string;
 }
@@ -623,7 +748,7 @@ export class ForumService extends BaseService {
 
 ): Observable<void> {
 
-    return this.getForumsByUserId_1$Response(params,context).pipe(
+    return this.respondToPost$Response(params,context).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

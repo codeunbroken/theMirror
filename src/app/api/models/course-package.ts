@@ -1,8 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface CoursePackage {
-  ageTag: 'children' | 'young adult' | 'adult';
-  courseCategory: 'beginner' | 'advanced' | 'proficiency';
+  ageTag: Array<any>;
   courseIds?: Array<any>;
   creatorId?: string;
   date?: string;

@@ -222,6 +222,89 @@ export class CourseProgressService extends BaseService {
   }
 
   /**
+   * Path part for operation getWholenessProgress
+   */
+  static readonly GetWholenessProgressPath = '/wholeness';
+
+  /**
+   * Get Wholeness Progress.
+   *
+   * Get Learner's Wholeness Progress
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getWholenessProgress()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getWholenessProgress$Response(params?: {
+  },
+  context?: HttpContext
+
+): Observable<StrictHttpResponse<{
+'identityComponent'?: number;
+'socialComponent'?: number;
+'spiritualComponent'?: number;
+'educationComponent'?: number;
+}>> {
+
+    const rb = new RequestBuilder(this.rootUrl, CourseProgressService.GetWholenessProgressPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<{
+        'identityComponent'?: number;
+        'socialComponent'?: number;
+        'spiritualComponent'?: number;
+        'educationComponent'?: number;
+        }>;
+      })
+    );
+  }
+
+  /**
+   * Get Wholeness Progress.
+   *
+   * Get Learner's Wholeness Progress
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getWholenessProgress$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getWholenessProgress(params?: {
+  },
+  context?: HttpContext
+
+): Observable<{
+'identityComponent'?: number;
+'socialComponent'?: number;
+'spiritualComponent'?: number;
+'educationComponent'?: number;
+}> {
+
+    return this.getWholenessProgress$Response(params,context).pipe(
+      map((r: StrictHttpResponse<{
+'identityComponent'?: number;
+'socialComponent'?: number;
+'spiritualComponent'?: number;
+'educationComponent'?: number;
+}>) => r.body as {
+'identityComponent'?: number;
+'socialComponent'?: number;
+'spiritualComponent'?: number;
+'educationComponent'?: number;
+})
+    );
+  }
+
+  /**
    * Path part for operation getCoursesByCourseProgress
    */
   static readonly GetCoursesByCourseProgressPath = '/courses/{progressStatus}';
