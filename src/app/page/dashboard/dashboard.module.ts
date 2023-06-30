@@ -11,6 +11,8 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CourseForumComponent } from '../course-forum/course-forum.component';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { ReplyComponentComponent } from '../reply-component/reply-component.component';
+import { AllForumsComponent } from '../all-forums/all-forums.component';
 
 
 
@@ -23,6 +25,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
     SidebarComponent,
     CourseForumComponent,
     NavigationComponent,
+    ReplyComponentComponent,
+    AllForumsComponent
 
 
 

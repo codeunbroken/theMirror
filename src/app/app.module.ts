@@ -15,7 +15,6 @@ import { ApiModule } from './api/api.module';
 import { environment } from 'src/environments/environment';
 import { ToastrModule } from 'ngx-toastr';
 import { JwtInterceptor } from './interceptor/jwt.interceptor';
-import { ReplyComponentComponent } from './page/reply-component/reply-component.component';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -29,7 +28,6 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     AppComponent,
     PageComponent,
     LoginComponent,
-    ReplyComponentComponent,
 
 
   ],

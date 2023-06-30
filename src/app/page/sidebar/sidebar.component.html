@@ -5,22 +5,24 @@
       <div class="pText font-bold p-2 px-5 hover:bg-[#3C3CC8] hover:text-white rounded cursor-pointer" routerLink="/announcement">Announcements</div>
     </div>
     <h4 class=" p-1 px-5 pb-2 mt-5 text-[1rem] text-[#3C3CC8]">Cohorts</h4>
-    <div class="nav__bottom" *ngFor="let data of [1,2,3,4]">
+    <div class="nav__bottom" *ngFor="let data of forums$ | async" (click)="view(data)">
       <div class="link p-1 px-5 py-2 hover:bg-[#3C3CC8] hover:text-white cursor-pointer rounded flex items-center gap-4" >
         <div class="h-[15px] w-[15px] rounded-sm" [ngStyle]="{'background': getRandomColor()}"></div>
-        <div class="pSmall">An item that Represents</div>
+        <div class="pSmall">{{data.forumName}}</div>
       </div>
 
 
     </div>
-    <h4 class=" p-1 px-5 pb-2 mt-5 text-[1rem] text-[#3C3CC8]">Public Forum</h4>
+
+    <small class=" p-2 text-[#3C3CC8] cursor-pointer hover:text-red-600" routerLink="/all-forums">View all Forums</small>
+    <!-- <h4 class=" p-1 px-5 pb-2 mt-5 text-[1rem] text-[#3C3CC8]">Public Forum</h4>
     <div class="nav__bottom" *ngFor="let data of [1,2,3,4]">
       <div class="link p-1 px-5 py-2 hover:bg-[#3C3CC8] cursor-pointer hover:text-white rounded flex items-center gap-4" >
         <div class="h-[15px] w-[15px] rounded-sm" [ngStyle]="{'background': color}"></div>
         <div class="pSmall">An item that Represents</div>
       </div>
 
-    </div>
+    </div> -->
   </div>
 
 </div>

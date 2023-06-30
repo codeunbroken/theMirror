@@ -1,50 +1,55 @@
-<div class="reply__container p-2 lg:p-10">
+<h3>{{message.forum.forumName}}</h3>
+<p>{{message.forum.description}}</p>
+<div class="reply__container mt-5">
   <div class="reply__wrapper">
-    <div class="reply__top">
-      <div class="user__comment flex items-center gap-4 py-6">
-        <div class="image">
-          <img src="../../../assets/images/community-item-img.png" />
-        </div>
-        <div class="name">
-          <h5>Shola Adeleke</h5>
-          <div class="bottom pSmall">
-            Super Admin | <span>12 minutes ago</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="wrapper flex items-center gap-2">
-        <div class="pSmall text-[#3C3CC8] font-bold">@Hilda Brown</div>
-        <span>I am super excited as well</span>
-      </div>
-      <div class="bottom__left mt-4">
-        <div class="likes__left flex items-center gap-10">
-          <div class="left__item flex items-center gap-2">
-            <i class="pi pi-thumbs-up" style="font-size: 1rem"></i
-            ><small>65 likes</small>
-          </div>
-          <div class="left__item flex items-center gap-2">
-            <i class="pi pi-comments" style="font-size: 1rem"></i
-            ><small>Comment</small>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="reply__bottom">
       <div class="user__comment flex items-center gap-6 py-6">
-        <div class="area w-full">
+        <form [formGroup]="form" class="area w-full">
           <textarea
             class="mb-5 w-full p-5 resize-none rounded-sm"
             placeholder="Enter your text here"
             name="text"
             id=""
             cols="8"
-            rows="8"
+            rows="6"
+            formControlName = 'postMessage'
           ></textarea>
-          <button class="bg-[#3C3CC8] py-2 px-8 rounded-md text-white">
+          <button class="bg-[#3C3CC8] py-2 px-8 rounded-md text-white" (click)="postComment()">
             Post
           </button>
-        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="reply__top" *ngFor="let data of posts$ | async">
+  <div class="user__comment flex items-center gap-4 py-6">
+    <div class="image">
+      <img src="../../../assets/images/community-item-img.png" />
+    </div>
+    <div class="name">
+      <h5>Shola Adeleke</h5>
+      <div class="bottom pSmall">
+        Super Admin | <span>12 minutes ago</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper flex items-center gap-2">
+    <div class="pSmall text-[#3C3CC8] font-bold">@Hilda Brown</div>
+    <span>I am super excited as well</span>
+  </div>
+  <div class="bottom__left mt-4">
+    <div class="likes__left flex items-center gap-10">
+      <div class="left__item flex items-center gap-2">
+        <i class="pi pi-thumbs-up" style="font-size: 1rem"></i
+        ><small>65 likes</small>
+      </div>
+      <div class="left__item flex items-center gap-2">
+        <i class="pi pi-comments" style="font-size: 1rem"></i
+        ><small>Comment</small>
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/services/auth.guard';
+import { AllForumsComponent } from '../all-forums/all-forums.component';
 import { ForumAnnouncementComponent } from '../forum-announcement/forum-announcement.component';
 import { ForumHomeComponent } from '../forum-home/forum-home.component';
 import { ForumWelcomePageComponent } from '../forum-welcome-page/forum-welcome-page.component';
@@ -30,11 +31,11 @@ const routes: Routes = [
       },
 
       {
-        path: 'reply',
-        component: ReplyComponentComponent,
+        path: 'all-forums',
+        component: AllForumsComponent,
       },
       {
-        path: 'forum/:id',
+        path: 'forum/:forumId',
         component: ReplyComponentComponent,
       },
     ]
