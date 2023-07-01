@@ -15,7 +15,7 @@
             rows="6"
             formControlName = 'postMessage'
           ></textarea>
-          <button class="bg-[#3C3CC8] py-2 px-8 rounded-md text-white" (click)="postComment()">
+          <button class="bg-[#3C3CC8] py-2 px-8 rounded-md text-white flex gap-3 items-center" (click)="postComment()">
             Post
           </button>
         </form>
@@ -24,33 +24,84 @@
   </div>
 </div>
 
-<div class="reply__top" *ngFor="let data of posts$ | async">
-  <div class="user__comment flex items-center gap-4 py-6">
-    <div class="image">
-      <img src="../../../assets/images/community-item-img.png" />
-    </div>
-    <div class="name">
-      <h5>Shola Adeleke</h5>
-      <div class="bottom pSmall">
-        Super Admin | <span>12 minutes ago</span>
+<div class="reply__top flex flex-col gap-5 "  >
+ <div class="userPost  bg-white p-8 rounded" *ngFor="let data of posts$ | async">
+  <div class="user__comment flex items-center gap-4 pb-5">
+    <p-avatar *ngIf="data.picture.length == 0; else myImage" [label]="data.name.split('')[0]" styleClass="mr-2" size="large" [style]="{ 'background-color': '#2196F3', color: '#ffffff' }" shape="circle"></p-avatar>
+        <ng-template #myImage>
+        <div class=" h-[45px] w-[45px] rounded-full">
+          <img [src]="data.picture" class="w-full h-full object-cover rounded-full" />
+        </div>
+      </ng-template>
+        <div class="name">
+          <h5>{{data.name}}</h5>
+          <div class="bottom pSmall">
+           <span>{{moment([data.date]).fromNow()}}</span>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="wrapper flex items-center gap-2">
-    <div class="pSmall text-[#3C3CC8] font-bold">@Hilda Brown</div>
-    <span>I am super excited as well</span>
-  </div>
-  <div class="bottom__left mt-4">
-    <div class="likes__left flex items-center gap-10">
-      <div class="left__item flex items-center gap-2">
-        <i class="pi pi-thumbs-up" style="font-size: 1rem"></i
-        ><small>65 likes</small>
+      <div class="wrapper flex items-center gap-2">
+        <!-- <div class="pSmall text-[#3C3CC8] font-bold">@Hilda Brown</div> -->
+        <span>{{data.postMessage}}</span>
       </div>
-      <div class="left__item flex items-center gap-2">
-        <i class="pi pi-comments" style="font-size: 1rem"></i
-        ><small>Comment</small>
+      <div class="bottom__left mt-4">
+        <div class="likes__left flex items-center gap-10 justify-between items-center">
+          <!-- <div class="left__item flex items-center gap-2">
+            <i class="pi pi-thumbs-up" style="font-size: 1rem"></i
+            ><small>65 likes</small>
+          </div> -->
+          <div class="left__item flex items-center gap-2 justify-end cursor-pointer" (click)="open(data)">
+            <i class="pi pi-comments" style="font-size: 1rem"></i
+            ><small>Comment</small>
+          </div>
+          <div class="comments">
+            <small>{{data.thread.length < 2 ? data.thread.length + ' Comment' : data.thread.length + ' Commnets'}} </small>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+      <div class="userPost  bg-[#FAFAFA] p-8 rounded mt-5"  >
+        <div class="user__comment flex items-center gap-4 pb-5" *ngFor="let comment of data.thread">
+          <p-avatar *ngIf="comment?.picture !== null; else myImage" [label]="comment.participantName.split('')[0]" styleClass="mr-2" size="large" [style]="{ 'background-color': '#2196F3', color: '#ffffff' }" shape="circle"></p-avatar>
+              <ng-template #myImage>
+              <div class=" h-[45px] w-[45px] rounded-full">
+                <img [src]="comment?.picture" class="w-full h-full object-cover rounded-full" />
+              </div>
+            </ng-template>
+              <div class="name">
+                <h5>{{comment.participantName}}</h5>
+                <div class="bottom pSmall">
+                 <span>This weekend</span>
+                </div>
+              </div>
+            </div>
+
+              <div class="reply__container mt-1" *ngIf="id === data.postId">
+                <div class="reply__wrapper w-full">
+
+                  <div class="reply__bottom w-full" >
+                    <div class="w-full  items-center gap-6 py-2">
+                      <form [formGroup]="commentForm" class="area w-full">
+                        <textarea
+                          class="mb-5 w-full p-5 resize-none text-sm rounded-sm"
+                          placeholder="Enter your text here"
+                          name="text"
+                          id=""
+                          cols="3"
+                          rows="3"
+                          formControlName = 'response'
+                        ></textarea>
+                        <button class="bg-[#3C3CC8] py-2 px-8 rounded-md text-white flex gap-3 items-center" (click)="respond(data.postId)">
+                          <!-- <i class="pi pi-spin pi-spinner"></i> -->
+                          Post
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+       </div>
+ </div>
+
 </div>

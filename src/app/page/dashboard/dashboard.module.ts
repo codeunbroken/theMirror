@@ -13,7 +13,7 @@ import { NavigationComponent } from '../navigation/navigation.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { ReplyComponentComponent } from '../reply-component/reply-component.component';
 import { AllForumsComponent } from '../all-forums/all-forums.component';
-
+import { AvatarModule } from 'primeng/avatar';
 
 
 @NgModule({
@@ -36,6 +36,7 @@ import { AllForumsComponent } from '../all-forums/all-forums.component';
     TabViewModule,
     DropdownModule,
     FormsModule,
+    AvatarModule,
     ReactiveFormsModule,
     DashboardRoutingModule
   ]
