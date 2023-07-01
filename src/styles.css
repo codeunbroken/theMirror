@@ -11,6 +11,12 @@
 }
 @import "primeicons/primeicons.css";
 
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url(./assets/font/PlusJakartaSans-VariableFont_wght.ttf);
+  font-display: swap;
+}
+
 :root{
   --background: ##F9F9F9;
   --cardBg: #fff;
