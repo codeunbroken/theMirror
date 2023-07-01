@@ -56,6 +56,7 @@ export class ReplyComponentComponent extends BaseComponent {
       }
     ).subscribe((res)=>{
       console.log(res);
+      this.form.reset()
       this.getPost()
     })
   }
@@ -68,7 +69,8 @@ export class ReplyComponentComponent extends BaseComponent {
     }).subscribe((res)=> {
       console.log(res);
       this.getPost()
-
+      this.commentForm.reset()
+      this.id = ''
     })
   }
 
